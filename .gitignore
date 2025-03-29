@@ -1,0 +1,6 @@
+# Visual Studio
+**/.vs/
+
+# Build outputs (TODO: Clean up)
+hello-msix.*
+HelloMSIX.msix
