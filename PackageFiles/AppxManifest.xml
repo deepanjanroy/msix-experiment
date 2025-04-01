@@ -11,7 +11,7 @@
   <Identity
     Name="HelloMSIX"
     Publisher="CN=dproy-cert"
-    Version="1.0.0.44" />
+    Version="1.0.0.54" />
   <Properties>
     <DisplayName>Hello MSIX</DisplayName>
     <PublisherDisplayName>Deep Roy Testing</PublisherDisplayName>
@@ -49,5 +49,6 @@
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
     <rescap:Capability Name="isolatedWin32-PromptForAccess" />
+    <rescap:Capability Name="isolatedWin32-accessToPublisherDirectory" />
   </Capabilities>
 </Package>

@@ -90,12 +90,12 @@ int main() {
         std::cout << "Error getting absolute path: " << e.what() << std::endl;
     }
 
-    // Check parent directory access
-    fs::path parentPath = fs::path(directory).parent_path();
-    std::error_code parentEc;
-    if (!fs::exists(parentPath, parentEc)) {
-        std::cout << "Parent directory access failed. Error: " << parentEc.message() << std::endl;
-    }
+    // // Check parent directory access
+    // fs::path parentPath = fs::path(directory).parent_path();
+    // std::error_code parentEc;
+    // if (!fs::exists(parentPath, parentEc)) {
+    //     std::cout << "Parent directory access failed. Error: " << parentEc.message() << std::endl;
+    // }
 
     try {
         if (!fs::exists(directory)) {
