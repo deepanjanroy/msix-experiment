@@ -5,6 +5,7 @@ $PackageDir = "ignore/ComfyPackage"
 $OutputFile = "ComfyPackage.msix"
 $CertName = "dproy-cert"
 $ManifestFile = Join-Path $PackageDir "AppxManifest.xml"
+$TopLevelManifest = "ComfyAppxManifest.xml"
 
 # Function to increment version number
 function Update-Version {
@@ -25,9 +26,9 @@ if (-not (Test-Path $PackageDir)) {
     exit 1
 }
 
-# Read and update version in manifest
-Write-Host "Updating version number..." -ForegroundColor Green
-$manifestContent = Get-Content $ManifestFile -Raw
+# Read and update version in top level manifest
+Write-Host "Updating version number in top level manifest..." -ForegroundColor Green
+$manifestContent = Get-Content $TopLevelManifest -Raw
 
 if ($manifestContent -match '<Identity[^>]*Version="([^"]+)"') {
     $currentVersion = $matches[1]
@@ -36,12 +37,21 @@ if ($manifestContent -match '<Identity[^>]*Version="([^"]+)"') {
     $pattern = "Version=`"$currentVersion`""
     $replacement = "Version=`"$newVersion`""
     $manifestContent = $manifestContent.Replace($pattern, $replacement)
-    Set-Content -Path $ManifestFile -Value $manifestContent.TrimEnd()
+    Set-Content -Path $TopLevelManifest -Value $manifestContent.TrimEnd()
     Write-Host "Version updated from $currentVersion to $newVersion" -ForegroundColor Green
 } else {
     Write-Error "Could not find version number in manifest file"
     exit 1
 }
+
+# Copy manifest from top level to package directory
+Write-Host "Copying manifest to package directory..." -ForegroundColor Green
+Copy-Item -Path $TopLevelManifest -Destination $ManifestFile -Force
+if (-not (Test-Path $ManifestFile)) {
+    Write-Error "Failed to copy manifest to package directory"
+    exit 1
+}
+Write-Host "Manifest copied successfully to $ManifestFile" -ForegroundColor Green
 
 Write-Host "Building MSIX package..." -ForegroundColor Green
 
