@@ -4,3 +4,4 @@
 # Build outputs (TODO: Clean up)
 hello-msix.*
 HelloMSIX.msix
+ignore/
