@@ -15,3 +15,5 @@ venv/
 *.pyw
 *.pyz
 *.pywz
+
+out/
