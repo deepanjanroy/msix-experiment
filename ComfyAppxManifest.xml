@@ -11,7 +11,7 @@
   <Identity
     Name="ComfyPackage"
     Publisher="CN=dproy-cert"
-    Version="1.0.0.58" />
+    Version="1.0.0.59" />
   <Properties>
     <DisplayName>Comfy Package</DisplayName>
     <PublisherDisplayName>Deep Roy Testing</PublisherDisplayName>

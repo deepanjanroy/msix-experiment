@@ -5,3 +5,13 @@
 hello-msix.*
 *.msix
 ignore/
+
+node_modules/
+
+venv/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
