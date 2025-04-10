@@ -13,6 +13,7 @@ $PackageDir = $distDir
 $OutputFile = Join-Path -Path $outDir -ChildPath "Py-Package.msix"
 $CertName = "dproy-cert"
 $ManifestFile = Join-Path $scriptDir "src\AppxManifest.xml"
+$PackageName = "Py-Package"
 
 
 
@@ -113,23 +114,9 @@ function Update-ManifestVersion {
   }
 }
 
-
-Write-Host "Activating Windows SDK"
-. "..\setup-sdk.ps1"
-
-Update-ManifestVersion -ManifestFile $ManifestFile
-Build-MsixPackage -PackageDir $PackageDir -OutputFile $OutputFile -CertName $CertName
-
-# Copy src\AppxManifest.xml to dist directory
-Write-Host "Copying AppxManifest.xml"
-Copy-Item -Path $scriptDir\src\AppxManifest.xml -Destination $distDir
-
-exit 1
-
-
-# activate venv
-Write-Host "Activating venv"
-& $venvDir\Scripts\Activate.ps1
+# Uninstall Previously Installed Package if it exists
+Write-Host "Uninstalling previously installed package"
+Get-AppxPackage -name $PackageName | Remove-AppxPackage -ErrorAction SilentlyContinue
 
 # Clean out directories
 Write-Host "Cleaning out directory"
@@ -141,14 +128,23 @@ New-Item -ItemType Directory -Path $distDir
 
 # build the exe
 Push-Location $scriptDir\out
+Write-Host "Activating venv"
+& $venvDir\Scripts\Activate.ps1
 Write-Host "Building pyinstaller exe"
 pyinstaller --onefile --name py-package $scriptDir\src\app.py --distpath $distDir
+deactivate
 Pop-Location
 
 # Copy src\Assets to dist directory
 Write-Host "Copying Assets"
 Copy-Item -Path $scriptDir\src\Assets -Destination $distDir -Recurse
 
+Write-Host "Activating Windows SDK"
+. "..\setup-sdk.ps1"
+Update-ManifestVersion -ManifestFile $ManifestFile
+Write-Host "Copying AppxManifest.xml"
+Copy-Item -Path $scriptDir\src\AppxManifest.xml -Destination $distDir
+Build-MsixPackage -PackageDir $PackageDir -OutputFile $OutputFile -CertName $CertName
 
 
 
