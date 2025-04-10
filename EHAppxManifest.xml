@@ -11,7 +11,7 @@
   <Identity
     Name="ElectronHello"
     Publisher="CN=dproy-cert"
-    Version="1.0.0.10" />
+    Version="1.0.0.11" />
   <Properties>
     <DisplayName>Electron Hello</DisplayName>
     <PublisherDisplayName>Deep Roy Testing</PublisherDisplayName>
