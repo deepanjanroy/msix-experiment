@@ -11,7 +11,7 @@
   <Identity
     Name="HelloMSIX"
     Publisher="CN=dproy-cert"
-    Version="1.0.0.63" />
+    Version="1.0.0.71" />
   <Properties>
     <DisplayName>Hello MSIX</DisplayName>
     <PublisherDisplayName>Deep Roy Testing</PublisherDisplayName>
@@ -26,7 +26,10 @@
   <Applications>
     <Application Id="App"
       Executable="hello-msix.exe"
-      EntryPoint="Windows.FullTrustApplication">
+      EntryPoint="Windows.FullTrustApplication"
+      uap18:EntryPoint="Isolated.App"
+      uap18:TrustLevel="appContainer"
+      uap18:RuntimeBehavior="appSilo">
       <uap:VisualElements
         DisplayName="Hello MSIX"
         Description="Testing MSIX Capabilities"
@@ -45,5 +48,6 @@
   </Applications>
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
+    <rescap:Capability Name="isolatedWin32-PromptForAccess" />
   </Capabilities>
 </Package>
