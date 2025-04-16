@@ -32,7 +32,7 @@ int main() {
   PROCESS_INFORMATION pi;
   
   
-  const char* cmd = "C:\\ProgramData\\MSIXPython_d90b81feyebxc\\eomfy-env\\Scripts\\python.exe C:\\ProgramData\\MSIXPython_d90b81feyebxc\\ComfyUI\\main.py";
+  const char* cmd = "C:\\ProgramData\\MSIXPython_d90b81feyebxc\\eomfy-env\\Scripts\\python.exe";
   
   if (!CreateProcess(NULL,   // No module name (use command line)
                     (LPSTR)cmd,  // Command line

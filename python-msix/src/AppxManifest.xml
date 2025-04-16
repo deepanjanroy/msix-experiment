@@ -13,7 +13,7 @@
   <Identity
     Name="MSIXPython"
     Publisher="CN=dproy-cert"
-    Version="1.0.0.175" />
+    Version="1.0.0.194" />
   <Properties>
     <DisplayName>MSIXPython</DisplayName>
     <PublisherDisplayName>Deep Roy Testing</PublisherDisplayName>
@@ -29,9 +29,8 @@
     <Application Id="App"
       Executable="launch.exe"
       EntryPoint="Windows.FullTrustApplication"
-      uap18:EntryPoint="Isolated.App"
-      uap18:TrustLevel="appContainer"
-      uap18:RuntimeBehavior="appSilo">
+      uap18:TrustLevel="lowIL"
+      uap18:RuntimeBehavior="packagedClassicApp">
       <uap:VisualElements
         DisplayName="MSIXPython"
         Description="Testing MSIX Capabilities"
@@ -40,6 +39,12 @@
         Square44x44Logo="Assets\Square44x44Logo.png">
       </uap:VisualElements>
       <Extensions>
+        <uap4:Extension Category="windows.loopbackAccessRules">
+          <uap4:LoopbackAccessRules>
+            <uap4:Rule Direction="in" PackageFamilyName="MSIXPython_d90b81feyebxc" />
+            <uap4:Rule Direction="out" PackageFamilyName="MSIXPython_d90b81feyebxc" />
+          </uap4:LoopbackAccessRules>
+        </uap4:Extension>
         <uap5:Extension Category="windows.appExecutionAlias">
           <uap5:AppExecutionAlias>
             <uap5:ExecutionAlias Alias="MSIXPython.exe" />
@@ -50,9 +55,8 @@
     <Application Id="App2"
       Executable="python\python.exe"
       EntryPoint="Windows.FullTrustApplication"
-      uap18:EntryPoint="Isolated.App"
-      uap18:TrustLevel="appContainer"
-      uap18:RuntimeBehavior="appSilo">
+      uap18:TrustLevel="mediumIL"
+      uap18:RuntimeBehavior="packagedClassicApp">
       <uap:VisualElements
         DisplayName="MSIXPython Python"
         Description="Testing MSIX Capabilities"
@@ -60,6 +64,19 @@
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
       </uap:VisualElements>
+      <Extensions>
+        <uap4:Extension Category="windows.loopbackAccessRules">
+          <uap4:LoopbackAccessRules>
+            <uap4:Rule Direction="in" PackageFamilyName="MSIXPython_d90b81feyebxc" />
+            <uap4:Rule Direction="out" PackageFamilyName="MSIXPython_d90b81feyebxc" />
+          </uap4:LoopbackAccessRules>
+        </uap4:Extension>
+        <uap5:Extension Category="windows.appExecutionAlias">
+          <uap5:AppExecutionAlias>
+            <uap5:ExecutionAlias Alias="MSIXPython2.exe" />
+          </uap5:AppExecutionAlias>
+        </uap5:Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>
@@ -67,5 +84,6 @@
     <rescap:Capability Name="isolatedWin32-accessToPublisherDirectory" />    
     <Capability Name="privateNetworkClientServer" />
     <Capability Name="internetClientServer" />
+    <rescap:Capability Name="unvirtualizedResources" />
   </Capabilities>
 </Package>

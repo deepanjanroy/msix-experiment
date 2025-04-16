@@ -73,14 +73,6 @@ function Build-MsixPackage {
           return $false
       }
       Write-Host "Package installed successfully." -ForegroundColor Green
-
-      Write-Host "Launching application..." -ForegroundColor Green
-      & Start-Process $PackageName
-      if ($LASTEXITCODE -ne 0) {
-          Write-Error "Failed to launch application"
-          return $false
-      }
-      Write-Host "Application launched successfully." -ForegroundColor Green
       
       return $true
   }
@@ -123,16 +115,34 @@ Remove-Item -Recurse -Force $outDir
 New-Item -ItemType Directory -Path $outDir
 New-Item -ItemType Directory -Path $distDir
 
-# Compile launch.cc
-Write-Host "Compiling launch.cc"
-$launchSrc = Join-Path $scriptDir "src\launch.cc"
-$launchExe = Join-Path $distDir "launch.exe"
-& clang $launchSrc -o $launchExe -luser32 -lshell32
-if ($LASTEXITCODE -ne 0) {
-    Write-Error "Failed to compile launch.cc"
-    exit 1
+# --- C++ Compilation ---
+Write-Host "Compiling C++ source files..."
+$sourceFilesToCompile = @(
+    'launch',
+    'launch2' # Add other base filenames here as needed
+)
+
+foreach ($baseName in $sourceFilesToCompile) {
+    $sourcePath = Join-Path $scriptDir "src\$($baseName).cc"
+    $outputPath = Join-Path $distDir "$($baseName).exe"
+    
+    if (-not (Test-Path $sourcePath)) {
+        Write-Warning "Source file not found: $sourcePath"
+        exit 1
+    }
+
+    Write-Host "Compiling $baseName.cc to $baseName.exe..."
+    & clang $sourcePath -o $outputPath -luser32 -lshell32
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "Failed to compile $baseName.cc (Exit code: $LASTEXITCODE)"
+        exit 1 
+    } else {
+        Write-Host "Successfully compiled $baseName.cc" -ForegroundColor Green
+    }
 }
-Write-Host "Successfully compiled launch.cc" -ForegroundColor Green
+Write-Host "Finished C++ compilation."
+# --- End C++ Compilation ---
 
 
 # Copy python to dist directory
@@ -154,6 +164,15 @@ Write-Host "Copying AppxManifest.xml"
 Copy-Item -Path $scriptDir\src\AppxManifest.xml -Destination $distDir
 Build-MsixPackage -PackageDir $PackageDir -OutputFile $OutputFile -CertName $CertName
 
+Write-Host "Launching application..." -ForegroundColor Green
+& Start-Process $PackageName
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to launch application"
+    exit 1
+}
+Write-Host "Application launched successfully." -ForegroundColor Green
+
+& Start-Process "${PackageName}2"
 
 
 
