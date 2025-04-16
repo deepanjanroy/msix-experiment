@@ -123,7 +123,17 @@ Remove-Item -Recurse -Force $outDir
 New-Item -ItemType Directory -Path $outDir
 New-Item -ItemType Directory -Path $distDir
 
-# Navigate to out directory
+# Compile launch.cc
+Write-Host "Compiling launch.cc"
+$launchSrc = Join-Path $scriptDir "src\launch.cc"
+$launchExe = Join-Path $distDir "launch.exe"
+& clang $launchSrc -o $launchExe -luser32 -lshell32
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to compile launch.cc"
+    exit 1
+}
+Write-Host "Successfully compiled launch.cc" -ForegroundColor Green
+
 
 # Copy python to dist directory
 Write-Host "Copying Python"
@@ -132,6 +142,10 @@ Copy-Item -Path $scriptDir\src\python -Destination $distDir -Recurse
 # Copy src\Assets to dist directory
 Write-Host "Copying Assets"
 Copy-Item -Path $scriptDir\..\Assets -Destination $distDir -Recurse
+
+# Copy app.py to dist directory
+Write-Host "Copying app.py"
+Copy-Item -Path $scriptDir\src\app.py -Destination $distDir
 
 Write-Host "Activating Windows SDK"
 . "..\setup-sdk.ps1"

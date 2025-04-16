@@ -11,7 +11,7 @@
   <Identity
     Name="Py-Package"
     Publisher="CN=dproy-cert"
-    Version="1.0.0.108" />
+    Version="1.0.0.109" />
   <Properties>
     <DisplayName>Py-Package</DisplayName>
     <PublisherDisplayName>Deep Roy Testing</PublisherDisplayName>
