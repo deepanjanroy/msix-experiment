@@ -13,7 +13,7 @@
   <Identity
     Name="MSIXPython"
     Publisher="CN=dproy-cert"
-    Version="1.0.0.194" />
+    Version="1.0.0.192" />
   <Properties>
     <DisplayName>MSIXPython</DisplayName>
     <PublisherDisplayName>Deep Roy Testing</PublisherDisplayName>
@@ -29,8 +29,9 @@
     <Application Id="App"
       Executable="launch.exe"
       EntryPoint="Windows.FullTrustApplication"
-      uap18:TrustLevel="lowIL"
-      uap18:RuntimeBehavior="packagedClassicApp">
+      uap18:EntryPoint="Isolated.App"
+      uap18:TrustLevel="appContainer"
+      uap18:RuntimeBehavior="appSilo">
       <uap:VisualElements
         DisplayName="MSIXPython"
         Description="Testing MSIX Capabilities"

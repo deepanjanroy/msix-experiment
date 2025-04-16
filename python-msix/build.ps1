@@ -172,7 +172,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Host "Application launched successfully." -ForegroundColor Green
 
-& Start-Process "${PackageName}2"
+# & Start-Process "${PackageName}2"
 
 
 
