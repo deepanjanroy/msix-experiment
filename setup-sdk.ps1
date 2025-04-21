@@ -14,3 +14,5 @@ if (Test-Path $path) {
     Write-Error "Path not found: $path"
     exit 1
 } 
+
+$windowsSdkDir = $path

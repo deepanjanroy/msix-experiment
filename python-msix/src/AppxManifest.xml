@@ -13,7 +13,7 @@
   <Identity
     Name="MSIXPython"
     Publisher="CN=dproy-cert"
-    Version="1.0.0.192" />
+    Version="1.0.0.194" />
   <Properties>
     <DisplayName>MSIXPython</DisplayName>
     <PublisherDisplayName>Deep Roy Testing</PublisherDisplayName>

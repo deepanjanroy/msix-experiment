@@ -119,7 +119,8 @@ New-Item -ItemType Directory -Path $distDir
 Write-Host "Compiling C++ source files..."
 $sourceFilesToCompile = @(
     'launch',
-    'launch2' # Add other base filenames here as needed
+    'launch2',
+    'winrt-app' # Add winrt-app to the list
 )
 
 foreach ($baseName in $sourceFilesToCompile) {
@@ -132,11 +133,18 @@ foreach ($baseName in $sourceFilesToCompile) {
     }
 
     Write-Host "Compiling $baseName.cc to $baseName.exe..."
-    & clang $sourcePath -o $outputPath -luser32 -lshell32
+    
+    # Add WinRT compilation flags for winrt-app
+    $compilerFlags = @("-luser32", "-lshell32", "-lwindowsapp.lib", "-lkernel32.lib")
+    if ($baseName -eq 'winrt-app') {
+        $compilerFlags += "-I $windowsSdkDir"
+    }
+    
+    & cl /std:c++17 /EHsc /LIBPATH:$windowsSdkDir windowsapp.lib $sourcePath -o $outputPath @compilerFlags
     
     if ($LASTEXITCODE -ne 0) {
         Write-Error "Failed to compile $baseName.cc (Exit code: $LASTEXITCODE)"
-        exit 1 
+        exit 1
     } else {
         Write-Host "Successfully compiled $baseName.cc" -ForegroundColor Green
     }

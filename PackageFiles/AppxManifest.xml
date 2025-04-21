@@ -11,7 +11,7 @@
   <Identity
     Name="HelloMSIX"
     Publisher="CN=dproy-cert"
-    Version="1.0.0.71" />
+    Version="1.0.0.72" />
   <Properties>
     <DisplayName>Hello MSIX</DisplayName>
     <PublisherDisplayName>Deep Roy Testing</PublisherDisplayName>
